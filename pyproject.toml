@@ -7,7 +7,6 @@ requires-python = ">=3.11,<3.13"
 
 dependencies = [
     "llama-index-tools-mcp",
-    "anthropic>=0.105.2",
     "dotenv>=0.9.9",
     "fastapi>=0.136.3",
     "langfuse>=4.7.1",
@@ -22,7 +21,6 @@ dependencies = [
     "pymupdf>=1.27.2.3",
     "pypdf>=6.12.2",
     "python-multipart>=0.0.30",
-    "ragas>=0.4.3",
     "sqlalchemy>=2.0.50",
     "uvicorn>=0.48.0",
 ]
