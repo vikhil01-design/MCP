@@ -1,0 +1,28 @@
+[project]
+name = "legaldoc-navigator"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+
+dependencies = [
+    "llama-index-tools-mcp",
+    "anthropic>=0.105.2",
+    "dotenv>=0.9.9",
+    "fastapi>=0.136.3",
+    "langfuse>=4.7.1",
+    "llama-index>=0.14.22",
+    "llama-index-embeddings-azure-openai>=0.5.2",
+    "llama-index-llms-azure-openai>=0.5.5",
+    "llama-index-vector-stores-postgres>=0.8.1",
+    "llama-parse>=0.6.94",
+    "openai>=2.38.0",
+    "pgvector>=0.4.2",
+    "psycopg2-binary>=2.9.12",
+    "pymupdf>=1.27.2.3",
+    "pypdf>=6.12.2",
+    "python-multipart>=0.0.30",
+    "ragas>=0.4.3",
+    "sqlalchemy>=2.0.50",
+    "uvicorn>=0.48.0",
+]
