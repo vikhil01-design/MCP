@@ -2,16 +2,18 @@ import os
 import logging
 from pathlib import Path
 from sqlalchemy import create_engine, text
+from dotenv import load_dotenv
 
-DB_HOST=os.getenv("DB_HOST", "localhost")
-DB_PORT=os.getenv("DB_PORT","5432")
-DB_USER=os.getenv("DB_USER")
-DB_PASSWORD=os.getenv("DB_PASSWORD")
-DB_NAME=os.getenv("DB_NAME")
+load_dotenv()
 
-DATABASE_URL = (
-    f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}"
-    f"@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = os.getenv("DB_PORT", "5432")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_NAME = os.getenv("DB_NAME")
+
+DATABASE_URL = os.getenv("DATABASE_URL") or (
+    f"postgresql://{DB_USER}:{DB_PASSWORD}" f"@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 )
 
 engine = create_engine(
@@ -22,13 +24,12 @@ engine = create_engine(
 
 logger = logging.getLogger(__name__)
 
+
 def initialize_database():
     sql_file = Path("db/legal_database_sample.sql")
 
     if not sql_file.exists():
-        raise FileNotFoundError(
-            f"SQL file not found: {sql_file.absolute()}"
-        )
+        raise FileNotFoundError(f"SQL file not found: {sql_file.absolute()}")
 
     sql_script = sql_file.read_text(encoding="utf-8")
 
