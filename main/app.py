@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Personal Diet Counselling Assistant API",
-    description="RAG-based Personal Diet Counselling Assistant with multi-modal content processing (text, tables, images) using LlamaIndex, Azure OpenAI, and PostgreSQL with PGVector",
+    description="RAG-based Personal Diet Counselling Assistant with multi-modal content processing (text, tables, images) using LlamaIndex, Azure OpenAI, and Qdrant",
     version="1.0.0",
 )
 
@@ -44,7 +44,7 @@ async def startup_event():
     """Initialize services on application startup."""
     logger.info("Application starting up...")
     try:
-        # Initialize the RAG service and load existing index from PostgreSQL
+        # Initialize the RAG service and load existing index from Qdrant
         initialize_database()
         rag_service.initialize()
         if rag_service.is_initialized():

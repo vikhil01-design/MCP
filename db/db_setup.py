@@ -18,8 +18,14 @@ DB_PORT = os.getenv("DB_PORT", "5432")
 DB_NAME = os.getenv("DB_NAME", "postgres")
 
 
-def get_connection_string(db_name):
-    return f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{db_name}"
+def get_connection_string(db_name=None):
+    database_url = os.getenv("DATABASE_URL")
+    if database_url:
+        return database_url
+
+    if db_name:
+        return f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{db_name}"
+    return f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 
 def execute_sql_file(conn, sql_file_path: Path):
@@ -36,24 +42,29 @@ def execute_sql_file(conn, sql_file_path: Path):
 
 
 def setup_database():
-    # Connect to default 'postgres' database to create the target database if it doesn't exist
-    engine = create_engine(
-        get_connection_string("postgres"), isolation_level="AUTOCOMMIT"
-    )
-    target_db = os.getenv("DB_NAME", "rag_db")
+    target_db = os.getenv("DB_NAME", "neondb")
+    database_url = os.getenv("DATABASE_URL")
+
+    if database_url:
+        engine = create_engine(database_url, isolation_level="AUTOCOMMIT")
+    else:
+        engine = create_engine(
+            get_connection_string("postgres"), isolation_level="AUTOCOMMIT"
+        )
 
     with engine.connect() as conn:
-        # Check if database exists
-        result = conn.execute(
-            text(f"SELECT 1 FROM pg_database WHERE datname = '{target_db}'")
-        )
-        if not result.fetchone():
-            logger.info(f"Creating database {target_db}...")
-            conn.execute(text(f"CREATE DATABASE {target_db}"))
-        else:
-            logger.info(f"Database {target_db} already exists.")
+        logger.info(f"Connected to database host using target database {target_db}")
 
-    # Now connect to the target database
+        if not database_url:
+            result = conn.execute(
+                text(f"SELECT 1 FROM pg_database WHERE datname = '{target_db}'")
+            )
+            if not result.fetchone():
+                logger.info(f"Creating database {target_db}...")
+                conn.execute(text(f"CREATE DATABASE {target_db}"))
+            else:
+                logger.info(f"Database {target_db} already exists.")
+
     engine = create_engine(get_connection_string(target_db))
 
     with engine.connect() as conn:
