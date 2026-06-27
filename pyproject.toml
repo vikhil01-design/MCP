@@ -17,6 +17,7 @@ dependencies = [
     "llama-parse>=0.6.94",
     "openai>=2.38.0",
     "qdrant-client>=1.14.2",
+    "psycopg2-binary>=2.9.12",
     "pymupdf>=1.27.2.3",
     "pypdf>=6.12.2",
     "python-multipart>=0.0.30",
