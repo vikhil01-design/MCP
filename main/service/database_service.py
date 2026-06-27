@@ -16,11 +16,22 @@ DATABASE_URL = os.getenv("DATABASE_URL") or (
     f"postgresql://{DB_USER}:{DB_PASSWORD}" f"@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 )
 
-engine = create_engine(
-    DATABASE_URL,
-    echo=True,
-    future=True,
-)
+_engine = None
+
+
+def get_engine():
+    """Lazy-load the database engine to avoid import-time dependency issues."""
+    global _engine
+    if _engine is None:
+        _engine = create_engine(
+            DATABASE_URL,
+            echo=True,
+            future=True,
+        )
+    return _engine
+
+
+engine = None  # Placeholder for backward compatibility
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +44,8 @@ def initialize_database():
 
     sql_script = sql_file.read_text(encoding="utf-8")
 
-    with engine.connect() as conn:
+    conn_engine = get_engine()
+    with conn_engine.connect() as conn:
         conn = conn.execution_options(isolation_level="AUTOCOMMIT")
 
         # pgvector extension
