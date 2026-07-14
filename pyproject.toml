@@ -9,6 +9,7 @@ dependencies = [
     "llama-index-tools-mcp",
     "dotenv>=0.9.9",
     "fastapi>=0.136.3",
+    "streamlit>=1.41.0",
     "langfuse>=4.7.1",
     "llama-index>=0.14.22",
     "llama-index-embeddings-azure-openai>=0.5.2",
