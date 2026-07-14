@@ -5,40 +5,10 @@ import tempfile
 from pathlib import Path
 
 import streamlit as st
-from dotenv import load_dotenv
 
-load_dotenv()
+from main import load_runtime_environment
 
-# Load Streamlit secrets when running in Streamlit Cloud or local secrets mode
-if "AZURE_OPENAI_API_KEY" not in os.environ:
-    try:
-        os.environ["AZURE_OPENAI_API_KEY"] = st.secrets["AZURE_OPENAI_API_KEY"]
-        os.environ["AZURE_OPENAI_ENDPOINT"] = st.secrets["AZURE_OPENAI_ENDPOINT"]
-        os.environ["AZURE_OPENAI_API_VERSION"] = st.secrets["AZURE_OPENAI_API_VERSION"]
-        os.environ["AZURE_OPENAI_LLM_DEPLOYMENT"] = st.secrets[
-            "AZURE_OPENAI_LLM_DEPLOYMENT"
-        ]
-        os.environ["AZURE_OPENAI_EMBEDDING_DEPLOYMENT"] = st.secrets[
-            "AZURE_OPENAI_EMBEDDING_DEPLOYMENT"
-        ]
-        os.environ["DATABASE_URL"] = st.secrets["DATABASE_URL"]
-        os.environ["DB_USER"] = st.secrets["DB_USER"]
-        os.environ["DB_PASSWORD"] = st.secrets["DB_PASSWORD"]
-        os.environ["DB_HOST"] = st.secrets["DB_HOST"]
-        os.environ["DB_PORT"] = st.secrets["DB_PORT"]
-        os.environ["DB_NAME"] = st.secrets["DB_NAME"]
-        os.environ["DB_TABLE_NAME"] = st.secrets["DB_TABLE_NAME"]
-        os.environ["QDRANT_URL"] = st.secrets["QDRANT_URL"]
-        os.environ["QDRANT_API_KEY"] = st.secrets["QDRANT_API_KEY"]
-        os.environ["QDRANT_COLLECTION_NAME"] = st.secrets["QDRANT_COLLECTION_NAME"]
-        os.environ["LANGFUSE_SECRET_KEY"] = st.secrets["LANGFUSE_SECRET_KEY"]
-        os.environ["LANGFUSE_PUBLIC_KEY"] = st.secrets["LANGFUSE_PUBLIC_KEY"]
-        os.environ["LANGFUSE_BASE_URL"] = st.secrets["LANGFUSE_BASE_URL"]
-        os.environ["LLAMA_CLOUD_API_KEY"] = st.secrets["LLAMA_CLOUD_API_KEY"]
-        os.environ["ECOURT_MCP_TOKEN"] = st.secrets["ECOURT_MCP_TOKEN"]
-        os.environ["ECOURT_MCP_URL"] = st.secrets["ECOURT_MCP_URL"]
-    except Exception:
-        pass
+load_runtime_environment()
 
 logger = logging.getLogger(__name__)
 

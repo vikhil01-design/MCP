@@ -78,7 +78,7 @@ def extract_images_from_pdf(pdf_path: str, output_dir: str) -> List[Dict[str, An
 
                     image_filepath = output_path / image_filename
 
-                    with open(image_filepath, "wb", encoding="utf-8") as image_file:
+                    with open(image_filepath, "wb") as image_file:
                         image_file.write(image_bytes)
 
                     image_info = {

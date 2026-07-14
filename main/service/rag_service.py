@@ -289,7 +289,11 @@ class RAGService:
                 try:
                     caption = generate_caption(image_info["path"])
                 except Exception as e:
-                    logger.error(f"Failed to caption image {image_info["path"]}: {e}")
+                    logger.warning(
+                        "Image captioning unavailable for %s: %s",
+                        image_info.get("path", "unknown"),
+                        e,
+                    )
                     caption = (
                         f"Image extracted from page "
                         f"{image_info.get('page', 'unknown')}"

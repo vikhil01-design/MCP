@@ -47,7 +47,7 @@ def generate_caption(image_path: str, prompt: Optional[str] = None) -> str:
     load_dotenv()
     logger.info(f"Reading and encoding image {image_path}")
 
-    with open(image_path, "rb", encoding="utf-8") as image_file:
+    with open(image_path, "rb") as image_file:
         image_bytes = image_file.read()
         image_data = base64.b64encode(image_bytes).decode("utf-8")
 
